@@ -1,5 +1,41 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
+require_once("../assets/dompdf/autoload.inc.php");
 include "../koneksi.php";
+
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
+$html = '<center><h3>Cetak Buku</h3></center><br/>';
+$html .= '<table border="1" width="100%">
+ <tr>
+ <th>No</th>
+ <th>ID Buku</th>
+ <th>Kategori</th>
+ <th>Pengarang</th>
+ <th>Penerbit</th>
+ </tr>';
+
+ $html .= "<tr>
+
+ <td>" . $r_tampil_buku['no'] . "</td>
+ <td>" . $r_tampil_buku['idbuku'] . "</td>
+ <td>" . $r_tampil_buku['kategori'] . "</td>
+ <td>" . $r_tampil_buku['pengarang'] . "</td>
+ <td>" . $r_tampil_buku['penerbit'] . "</td>
+
+ </tr>";
+
+ $html .= "</html>";
+
+//download pdf
+$dompdf->loadHtml($html);
+$dompdf->setPaper('A4', 'landscape');
+$dompdf->render();
+$pdf = $dompdf->output();
+$time = date("Y-m-d h:i:sa");
+$dompdf->stream($time . '_laporan.pdf', array('Attachment' => 0));
+
 
 ?>
 <link rel="stylesheet" type="text/css" href="../style.css">
