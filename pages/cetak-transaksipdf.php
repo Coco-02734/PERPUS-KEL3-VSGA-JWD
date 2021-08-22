@@ -1,5 +1,7 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
 require_once("../assets/dompdf/autoload.inc.php");
+include "../koneksi.php";
 
 use Dompdf\Dompdf;
 
@@ -37,7 +39,8 @@ $dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'landscape');
 $dompdf->render();
 $pdf = $dompdf->output();
-$dompdf->stream('laporan.pdf', array('Attachment' => 0));
+$time = date("Y-m-d h:i:sa");
+$dompdf->stream($time . '_laporan.pdf', array('Attachment' => 0));
 
 //cetak pdf
 // $dompdf->loadHtml($html);
