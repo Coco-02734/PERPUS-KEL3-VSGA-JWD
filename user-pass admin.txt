@@ -1,2 +1,0 @@
-user :jwd
-pass :1234
