@@ -6,7 +6,7 @@ include "../koneksi.php";
 use Dompdf\Dompdf;
 
 $dompdf = new Dompdf();
-$html = '<center><h3>Daftar Nama Sekolah</h3></center><br/>';
+$html = '<center><h3>Daftar Transaksi Peminjaman</h3></center><br/>';
 $html .= '<table border="1" width="100%">
  <tr>
  <th>Nomor</th>
