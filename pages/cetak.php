@@ -1,21 +1,21 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
+require_once("../assets/dompdf/autoload.inc.php");
 include "../koneksi.php";
 
-?>
-<link rel="stylesheet" type="text/css" href="../style.css">
-<h3>Data Anggota</h3></div>
-<div id="content">
-<table border="1" id="tabel-tampil">
-		<tr>
-			<th id="label-tampil-no">No</th>
-			<th>ID Anggota</th>
-			<th>Nama</th>
-			<th>Foto</th>
-			<th>Jenis Kelamin</th>
-			<th>Alamat</th>
-		</tr>
-		
-		<?php		
+use Dompdf\Dompdf;
+
+$dompdf = new Dompdf();
+$html = '<center><h3>Cetak Anggota</h3></center><br/>';
+$html .= '<table border="1" width="100%">
+ <tr>
+ <th>Nomor</th>
+ <th>ID Anggota</th>
+ <th>Nama</th>
+ <th>Foto</th>
+ <th>Jenis Kelamin</th>
+ <th>Alamat</th>
+ </tr>';	
 		$nomor=1;
 		$query="SELECT * FROM tbanggota ORDER BY idanggota DESC";
 		$q_tampil_anggota = mysqli_query($db, $query);
@@ -26,19 +26,27 @@ include "../koneksi.php";
 				$foto = "admin-no-photo.jpg";
 			else
 				$foto = $r_tampil_anggota['foto'];
-		?>
-		<tr>
-			<td><?php echo $nomor; ?></td>
-			<td><?php echo $r_tampil_anggota['idanggota']; ?></td>
-			<td><?php echo $r_tampil_anggota['nama']; ?></td>
-			<td><img src="../images/<?php echo $foto; ?>" width=70px height=70px></td>
-			<td><?php echo $r_tampil_anggota['jeniskelamin']; ?></td>
-			<td><?php echo $r_tampil_anggota['alamat']; ?></td>		
-		</tr>		
-		<?php $nomor++; } 
-		}?>		
-	</table>
-	<script>
-		window.print();
-	</script>
-</div>
+
+				$html .= '<tr>
+
+<td>' . $nomor . '</td>
+<td>' . $r_tampil_anggota['idanggota'] . '</td>
+<td>' . $r_tampil_anggota['nama'] . '</td>
+<td><img src="../images/' . $foto . '" width=70px height=75px></td>
+
+ <td>' . $r_tampil_anggota['jeniskelamin'] . '</td>
+ <td>' . $r_tampil_anggota['alamat'] . '</td>
+			   
+				</tr>';
+					   $nomor++;
+				   }
+				}
+				$html .= '</html>';
+				
+				//download pdf
+				$dompdf->loadHtml($html);
+				$dompdf->setPaper('A4', 'landscape');
+				$dompdf->render();
+				$pdf = $dompdf->output();
+				$time = date("Y-m-d h:i:sa");
+				$dompdf->stream($time . '_laporan.pdf', array('Attachment' => 0));
