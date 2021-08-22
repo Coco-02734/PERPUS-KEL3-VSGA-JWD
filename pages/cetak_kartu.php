@@ -11,7 +11,7 @@ require_once("../assets/dompdf/autoload.inc.php");
 	else
 		$foto = $r_tampil_anggota['foto'];
 
-		use Dompdf\Dompdf;
+use Dompdf\Dompdf;
 
 $dompdf = new Dompdf();
 $html = '<center><h3>Kartu Anggota</h3></center><br/>';
@@ -24,16 +24,16 @@ $html .= '<table border="1" width="100%">
  <th>Alamat</th>
  </tr>';
 
- $html .= "<tr>
+ $html .= '<tr>
 
- <td><img src='../images/" . $foto . " width=70px height=75px></td>
- <td>" . $r_tampil_anggota['idanggota'] . "</td>
- <td>" . $r_tampil_anggota['nama'] . "</td>
- <td>" . $r_tampil_anggota['jeniskelamin'] . "</td>
- <td>" . $r_tampil_anggota['alamat'] . "</td>
+ <td><img src="../images/' . $foto . '" width=70px height=75px></td>
+ <td>' . $r_tampil_anggota['idanggota'] . '</td>
+ <td>' . $r_tampil_anggota['nama'] . '</td>
+ <td>' . $r_tampil_anggota['jeniskelamin'] . '</td>
+ <td>' . $r_tampil_anggota['alamat'] . '</td>
 
- </tr>";
- $html .= "</html>";
+ </tr>';
+ $html .= '</html>';
 
 //download pdf
 $dompdf->loadHtml($html);
